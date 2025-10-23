@@ -1,0 +1,17 @@
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+/.github
+/.vscode
+/.phpunit.result.cache
+/.env
+/.env.testing
+/pint.json
+/.gitattributes
+/.gitignore
+/.dockerignore
+/docker-compose.yml
+/docker-compose.prod.yml
+/docker-compose.test.yml
+/.devcontainer
