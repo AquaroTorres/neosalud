@@ -1,0 +1,41 @@
+# Imagen con PHP-FPM + NGINX optimizada para Laravel
+FROM serversideup/php:8.3-fpm-nginx
+
+# Directorio base de la app (coincide con APP_BASE_DIR por defecto)
+WORKDIR /var/www/html
+
+# (Opcional) variables útiles
+ENV PHP_DATE_TIMEZONE=America/Santiago \
+    PHP_OPCACHE_ENABLE=1
+
+USER root
+RUN apt-get update && apt-get install -y \
+    nodejs npm \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd
+USER www-data
+
+# Copia el proyecto (usa .dockerignore para excluir vendor/node_modules si quieres)
+COPY --chown=www-data:www-data . .
+
+# Composer (la imagen ya trae composer configurado)
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Build de assets
+RUN npm install && npm run prod && rm -rf node_modules
+
+# Permisos de escritura
+RUN chmod -R 775 storage bootstrap/cache
+
+# Caches de Laravel durante el build (seguro si tu build no requiere DB)
+# Si tu build necesita conexión a DB, comenta estas líneas y usa AUTORUN_* al arrancar.
+# RUN php artisan route:cache \
+#     && php artisan view:cache \
+#     && php artisan event:cache || true
+
+# Al usar serversideup/php NO necesitas supervisord aquí; el contenedor ya inicia NGINX+PHP-FPM.
+# Puertos internos por defecto: 8080 (HTTP) y 8443 (HTTPS)
+# Healthcheck disponible en /healthcheck
