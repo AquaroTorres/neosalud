@@ -1,0 +1,13 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "no_unused_imports": false,
+        "array_indentation": true,
+        "binary_operator_spaces": {
+            "default": "align_single_space_minimal"
+        },
+        "array_syntax": {
+            "syntax": "short"
+        }
+    }
+}

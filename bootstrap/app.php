@@ -52,7 +52,7 @@ $app->singleton(
 |
 */
 
-# [START] Add the following block to `bootstrap/app.php`
+// [START] Add the following block to `bootstrap/app.php`
 /*
 |--------------------------------------------------------------------------
 | Set Storage Path
@@ -63,7 +63,7 @@ $app->singleton(
 | in your .env file,  if not set the default location will be used
 |
 */
-$app->useStoragePath(env('APP_STORAGE', base_path() . '/storage'));
-# [END]
+$app->useStoragePath(env('APP_STORAGE', base_path().'/storage'));
+// [END]
 
 return $app;
