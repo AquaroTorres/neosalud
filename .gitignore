@@ -22,5 +22,4 @@ artisan
 *.save
 *.swp
 /config-git-crypt.key
-docker-compose.yml
 .vscode/settings.json

@@ -1,0 +1,52 @@
+services:
+  app:
+    container_name: neosalud_app
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.${APP_ENV}
+    env_file:
+      - .env.${APP_ENV}
+    working_dir: /var/www/html
+    depends_on:
+      - db
+      - redis
+    # La imagen serversideup usa puertos no privilegiados: 8080/8443 → los mapeamos a 80/443
+    ports:
+      - "80:8080"
+      - "443:8443"
+    environment:
+      # Ajustes recomendados/útiles para prod en serversideup
+      PHP_DATE_TIMEZONE: "America/Santiago"
+      PHP_OPCACHE_ENABLE: "1"
+      # Opcional: automatizaciones de Laravel en el arranque (migraciones, caches, storage:link)
+      AUTORUN_ENABLED: "false" # ponlo en "true" si quieres que se ejecuten en container start
+    restart: always
+
+  db:
+    container_name: neosalud_mysql
+    image: "mysql:8.0"
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    # Para desarrollo, puedes exponer el puerto:
+    ports:
+      - "3307:3306"
+    volumes:
+      - "mysql_data:/var/lib/mysql"
+
+  redis:
+    container_name: neosalud_redis
+    image: "redis:latest"
+    restart: always
+    # ports:
+    #   - "6379:6379"
+    volumes:
+      - "redis_data:/data"
+
+volumes:
+  mysql_data:
+  redis_data:
+    driver: local
