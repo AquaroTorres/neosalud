@@ -24,11 +24,15 @@ COPY --chown=www-data:www-data . .
 # Composer (la imagen ya trae composer configurado)
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Build de assets
-RUN npm install && npm run prod && rm -rf node_modules
+RUN cp .env.example .env
+
+RUN php artisan key:generate
 
 # Permisos de escritura
 RUN chmod -R 775 storage bootstrap/cache
+
+# Build de assets
+RUN npm install && npm run prod && rm -rf node_modules
 
 # Caches de Laravel durante el build (seguro si tu build no requiere DB)
 # Si tu build necesita conexión a DB, comenta estas líneas y usa AUTORUN_* al arrancar.
