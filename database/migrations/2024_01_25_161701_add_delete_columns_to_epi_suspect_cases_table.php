@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::table('epi_suspect_cases', function (Blueprint $table) {
             //
-            $table->string('delete_reason')->nullable()->after('sampler_id');
-            $table->foreignId('delete_user_id')->nullable()->after('delete_reason')->constrained('users');
+            $table->string('delete_reason')->nullable()->after('id');
+            $table->unsignedBigInteger('delete_user_id')->nullable()->after('delete_reason')->constrained('users');
         });
     }
 

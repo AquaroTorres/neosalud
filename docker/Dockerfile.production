@@ -1,7 +1,6 @@
 # Imagen con PHP-FPM + NGINX optimizada para Laravel
 FROM serversideup/php:8.3-fpm-nginx-alpine
 
-# Directorio base de la app (coincide con APP_BASE_DIR por defecto)
 WORKDIR /var/www/html
 
 USER root
@@ -23,12 +22,6 @@ RUN chmod -R 775 storage bootstrap/cache
 
 # Build de assets
 RUN npm install && npm run prod && rm -rf node_modules
-
-# Caches de Laravel durante el build (seguro si tu build no requiere DB)
-# Si tu build necesita conexión a DB, comenta estas líneas y usa AUTORUN_* al arrancar.
-# RUN php artisan route:cache \
-#     && php artisan view:cache \
-#     && php artisan event:cache || true
 
 # Puertos internos por defecto: 8080 (HTTP) y 8443 (HTTPS)
 # Healthcheck disponible en /healthcheck
