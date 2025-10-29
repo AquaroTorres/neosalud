@@ -18,6 +18,21 @@ services:
       # Ajustes recomendados/útiles para prod en serversideup
       PHP_DATE_TIMEZONE: "America/Santiago"
       PHP_OPCACHE_ENABLE: "1"
+
+      # ENVIRONMENT VARIABLES DE LARAVEL
+      APP_NAME: "BOOM"
+      APP_ENV: "${APP_ENV}"
+      APP_KEY: "${APP_KEY}"
+      APP_DEBUG: "${APP_DEBUG}"
+      APP_URL: "${APP_URL}"
+      DB_CONNECTION: "mysql"
+      DB_HOST: "db"
+      DB_PORT: "${DB_PORT}"
+      DB_DATABASE: "${DB_DATABASE}"
+      DB_USERNAME: "${DB_USERNAME}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      LOG_CHANNEL: "single"
+
       # Opcional: automatizaciones de Laravel en el arranque (migraciones, caches, storage:link)
       AUTORUN_ENABLED: "false" # ponlo en "true" si quieres que se ejecuten en container start
     restart: always
