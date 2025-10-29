@@ -4,8 +4,8 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.${APP_ENV}
-    env_file:
-      - .env.${APP_ENV}
+    # env_file:
+    #   - .env.${APP_ENV}
     working_dir: /var/www/html
     depends_on:
       - db
