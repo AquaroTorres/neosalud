@@ -17,9 +17,9 @@ services:
       PHP_DATE_TIMEZONE: "America/Santiago"
       PHP_OPCACHE_ENABLE: "1"
       # Opcional: automatizaciones de Laravel en el arranque (migraciones, caches, storage:link)
-      AUTORUN_ENABLED: "false" # ponlo en "true" si quieres que se ejecuten en container start
+      AUTORUN_ENABLED: "true"
 
-      # ENVIRONMENT VARIABLES DE LARAVEL
+      # LARAVEL ENVIRONMENT VARIABLES
       APP_NAME: "${APP_NAME}"
       APP_KEY: "${APP_KEY}"
       APP_URL: "${APP_URL}"
@@ -33,6 +33,7 @@ services:
       DB_DATABASE: "${DB_DATABASE}"
       DB_USERNAME: "${DB_USERNAME}"
       DB_PASSWORD: "${DB_PASSWORD}"
+      REDIS_CLIENT: "${REDIS_CLIENT}"
       REDIS_HOST: "${REDIS_HOST}"
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
       REDIS_PORT: "${REDIS_PORT}"
