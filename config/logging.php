@@ -1,9 +1,9 @@
 <?php
 
-use Monolog\Handler\SyslogUdpHandler;
-use Monolog\Handler\StreamHandler;
-use Monolog\Handler\NullHandler;
 use Actived\MicrosoftTeamsNotifier\LogMonolog;
+use Monolog\Handler\NullHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\SyslogUdpHandler;
 
 return [
 
@@ -35,70 +35,57 @@ return [
     |
     */
 
-
     'channels' => [
         'db' => [
             'driver' => 'custom',
             'via'    => App\Logging\DatabaseLogger::class,
         ],
         'stack' => [
-            'driver' => 'stack',
-            'channels' => ['teams'],
+            'driver'            => 'stack',
+            'channels'          => ['single'],
             'ignore_exceptions' => false,
         ],
 
         'google_cloud_logging' => [
-            'driver' => 'custom',
-            'projectId'=> env('GOOGLE_PROJECT_ID'),
-            'logName' => 'neosalud',
-            'labels' => [
-                'APP_NAME' => json_encode(env('APP_NAME')),
-                'APP_ENV' => env('APP_ENV'),
+            'driver'    => 'custom',
+            'projectId' => env('GOOGLE_PROJECT_ID'),
+            'logName'   => 'neosalud',
+            'labels'    => [
+                'APP_NAME'  => json_encode(env('APP_NAME')),
+                'APP_ENV'   => env('APP_ENV'),
                 'APP_DEBUG' => json_encode(env('APP_DEBUG')),
-                'APP_URL' => env('APP_URL'),
+                'APP_URL'   => env('APP_URL'),
             ],
             'handler' => App\Logging\GoogleCloudHandler::class,
-            'via' => App\Logging\GoogleCloudLogging::class,
-            'level' => 'debug',
+            'via'     => App\Logging\GoogleCloudLogging::class,
+            'level'   => 'debug',
         ],
 
         'single' => [
             'driver' => 'single',
-            'path' => storage_path('logs/laravel.log'),
-            'level' => env('LOG_LEVEL', 'debug'),
+            'path'   => storage_path('logs/laravel.log'),
+            'level'  => env('LOG_LEVEL', 'debug'),
         ],
 
         'daily' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/laravel.log'),
-            'level' => env('LOG_LEVEL', 'debug'),
-            'days' => 14,
+            'path'   => storage_path('logs/laravel.log'),
+            'level'  => env('LOG_LEVEL', 'debug'),
+            'days'   => 14,
         ],
 
         'slack' => [
-            'driver' => 'slack',
-            'url' => env('LOG_SLACK_WEBHOOK_URL'),
+            'driver'   => 'slack',
+            'url'      => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => env('APP_NAME'),
-            'emoji' => ':heart:',
-            'level' => env('LOG_LEVEL', 'debug'),
-        ],
-
-        'teams' => [
-            'driver' => 'custom',//#1
-            'via'    => LogMonolog::class,//#2
-            'webhookDsn' => env('LOG_TEAMS_WEBHOOK_URL'),//#3
-            'level'  => 'debug',//#6
-            'title'  => 'Log NeoSalud',//#4
-            'subject' => 'Message Subject',//#5 
-            'emoji'  => '&#x1F3C1',//#7
-            'color'  => '#fd0404',//#8
-            'format' => '[%datetime%] %channel%.%level_name%: %message%'//#9
+            'emoji'    => ':heart:',
+            'level'    => env('LOG_LEVEL', 'debug'),
         ],
 
         'papertrail' => [
-            'driver' => 'monolog',
-            'level' => env('LOG_LEVEL', 'debug'),
-            'handler' => SyslogUdpHandler::class,
+            'driver'       => 'monolog',
+            'level'        => env('LOG_LEVEL', 'debug'),
+            'handler'      => SyslogUdpHandler::class,
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
@@ -106,26 +93,26 @@ return [
         ],
 
         'stderr' => [
-            'driver' => 'monolog',
-            'handler' => StreamHandler::class,
+            'driver'    => 'monolog',
+            'handler'   => StreamHandler::class,
             'formatter' => env('LOG_STDERR_FORMATTER'),
-            'with' => [
+            'with'      => [
                 'stream' => 'php://stderr',
             ],
         ],
 
         'syslog' => [
             'driver' => 'syslog',
-            'level' => env('LOG_LEVEL', 'debug'),
+            'level'  => env('LOG_LEVEL', 'debug'),
         ],
 
         'errorlog' => [
             'driver' => 'errorlog',
-            'level' => env('LOG_LEVEL', 'debug'),
+            'level'  => env('LOG_LEVEL', 'debug'),
         ],
 
         'null' => [
-            'driver' => 'monolog',
+            'driver'  => 'monolog',
             'handler' => NullHandler::class,
         ],
 

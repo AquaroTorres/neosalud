@@ -22,7 +22,7 @@ env_variables:
   APP_KEY:
   APP_DEBUG: true
   APP_URL: https://www.saludtarapaca.gob.cl
-  APP_SS: "Servicio de Salud Tarapacá"
+  APP_SS_NAME: "Servicio de Salud Tarapacá"
   DEBUGBAR_ENABLED: false
 
   APP_STORAGE: /tmp
