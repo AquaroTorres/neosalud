@@ -9,11 +9,13 @@ ENV PHP_DATE_TIMEZONE=America/Santiago \
     PHP_OPCACHE_ENABLE=1
 
 USER root
-# Install the intl extension with root permissions
-RUN install-php-extensions gd soap
-
-RUN apk update && apk add --no-cache nodejs npm
-
+RUN apt-get update && apt-get install -y \
+    nodejs npm \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd
 USER www-data
 
 # Copia el proyecto (usa .dockerignore para excluir vendor/node_modules si quieres)
