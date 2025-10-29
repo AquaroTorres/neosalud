@@ -44,7 +44,3 @@
 -   `` alias dbuild='docker build -t `basename "$PWD"` docker/dev' ``
 -   `` alias drun='docker run --rm -it -v $(pwd):/var/www/html -p 8000:8000 -d --name `basename "$PWD"` `basename "$PWD"`' ``
 -   `` alias dexec='docker exec -it `basename "$PWD"` /bin/bash' ``
-
-## License
-
-Open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
